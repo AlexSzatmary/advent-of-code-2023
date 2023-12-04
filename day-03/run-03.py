@@ -15,11 +15,13 @@ def add_matching_parts(L):
     count = 0
     for i, s in enumerate(L):
         for m in re.finditer(r"\d+", s):
-            # breakpoint()
-            if np.any(syms[max(0, i - 1):min(i + 1 + 1, np.size(syms, 0)),
-                           max(0, m.start() - 1):min(m.end() + 1, np.size(syms, 1))]):
+            if np.any(
+                syms[
+                    max(0, i - 1) : min(i + 1 + 1, np.size(syms, 0)),
+                    max(0, m.start() - 1) : min(m.end() + 1, np.size(syms, 1)),
+                ]
+            ):
                 count += int(m.group())
-                # print(int(m.group()))
     return count
 
 
