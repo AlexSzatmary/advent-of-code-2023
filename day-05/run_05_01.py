@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# import numpy as np
 import re
 import sys
 
@@ -20,8 +19,8 @@ def parse_tables(L):
 
 
 def apply_map(i, m):
-    for dest, src, range in m:
-        if src <= i < src + range:
+    for dest, src, length in m:
+        if src <= i < src + length:
             return i - src + dest
     return i
 
