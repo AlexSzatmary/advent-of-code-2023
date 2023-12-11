@@ -16,12 +16,6 @@ for pipe in PIPES:
     DIRECTIONS[(pipe[0], INOUT[pipe[1]])] = pipe[2]
     DIRECTIONS[(pipe[0], INOUT[pipe[2]])] = pipe[1]
 
-# def parse_input(L):
-#     rows = []
-#     for s in L:
-#         rows.append(list(map(int, re.findall(r"(-?\d+)", s))))
-#     return rows
-
 
 def find_S(L):
     row = [i for i, s in enumerate(L) if "S" in s][0]
@@ -53,7 +47,6 @@ def crawl(L, row, col, d):
                     return False
         dist += 1
         new_spot = L[row][col]
-        print(row, col, d, new_spot, dist)
         if new_spot == "S":
             return dist
         if (new_spot, d) in DIRECTIONS:
@@ -64,7 +57,6 @@ def crawl(L, row, col, d):
 
 def predict(row):
     row = list(reversed(row))
-    print(row)
     tableau = []
     tableau.append([row[i + 1] - row[i] for i in range(len(row) - 1)])
     while not all(x == 0 for x in tableau[-1]):
@@ -83,9 +75,7 @@ def main(argv=None):
         L = hin.readlines()
     row, col = find_S(L)
     for d in "ENW":
-        print(d)
         distance = crawl(L, row, col, d)
-        print(distance / 2 + 1)
         if distance > 0:
             break
     print(distance // 2)
