@@ -8,8 +8,11 @@ def parse_input(L):
     rows = []
     for s in L:
         row, groups = s.split(" ")
-        row = row * 5
-        groups = ",".join(groups for i in range(5))
+        repeats = 5
+        row = "?".join(row for i in range(repeats))
+        # print(groups[:-1])
+        groups = ",".join(groups[:-1] for i in range(repeats))
+        # print(row, groups)
         rows.append((row, list(map(int, groups.split(",")))))
     return rows
 
