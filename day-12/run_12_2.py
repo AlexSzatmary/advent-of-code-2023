@@ -48,8 +48,12 @@ def main(argv=None):
     with open(argv[1], "r") as hin:
         L = hin.readlines()
     rows = parse_input(L)
-    print([count_arrangements(row, groups) for row, groups in rows])
-    print(sum(count_arrangements(row, groups) for row, groups in rows))
+    possibilities = 0
+    for row, groups in rows:
+        p = count_arrangements(row, groups) 
+        print(row, groups, p)
+        possibilities += p
+    print(possibilities)
 
 
 if __name__ == "__main__":
