@@ -55,6 +55,10 @@ def main(argv=None):
     rows = parse_input(L)
     possibilities = 0
     for i, (row, groups) in enumerate(rows):
+        for j in range(4, 0, -1):  # precompute segments from later
+            count_arrangements(
+                row, tuple(groups), len(row) * j // 5, len(groups) * j // 5
+            )
         p = count_arrangements(row, tuple(groups), 0, 0)
         print("***", i, "***", row, groups, p)
         possibilities += p
