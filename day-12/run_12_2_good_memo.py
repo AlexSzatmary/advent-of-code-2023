@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 # from itertools import cycle
+from functools import cache
 import timeit
 import re
 import sys
@@ -26,19 +27,18 @@ def pattern_from_groups(groups):
     )
 
 
-def count_arrangements(row, groups, start_row, start_groups, memo):
-    if (start_row, start_groups) in memo:
-        return memo[(start_row, start_groups)]
+@cache
+def count_arrangements(row, groups, start_row, start_groups):
     if start_groups >= len(groups):
         return 1
     m = re.match(pattern_from_groups(groups[start_groups:]), row[start_row:])
     if m:
         start_row += len(m.group(1))
         dig = count_arrangements(
-            row, groups, start_row + groups[start_groups] + 1, start_groups + 1, memo
+            row, groups, start_row + groups[start_groups] + 1, start_groups + 1
         )
         if row[start_row].startswith("?"):
-            scan = count_arrangements(row, groups, start_row + 1, start_groups, memo)
+            scan = count_arrangements(row, groups, start_row + 1, start_groups)
         else:
             scan = 0
         return dig + scan
@@ -55,7 +55,7 @@ def main(argv=None):
     rows = parse_input(L)
     possibilities = 0
     for i, (row, groups) in enumerate(rows):
-        p = count_arrangements(row, groups, 0, 0, {})
+        p = count_arrangements(row, tuple(groups), 0, 0)
         print("***", i, "***", row, groups, p)
         possibilities += p
     print(possibilities)
