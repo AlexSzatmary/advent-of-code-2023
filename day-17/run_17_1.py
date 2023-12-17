@@ -65,17 +65,12 @@ def main(argv=None):
     dist_matrix = shortest_path(graph, method="D", indices=k(0, 0, 0))
     print("Shortest path found")
 
-    print(dist_matrix)
-    # print(
-    #     min(
-    #         dist_matrix[k(0, 0, 0), k(m - 1, n - 1, 0)],
-    #         dist_matrix[k(0, 0, 0), k(m - 1, n - 1, 1)],
-    #     )
-    # )
     print(
-        min(
-            dist_matrix[k(m - 1, n - 1, 0)],
-            dist_matrix[k(m - 1, n - 1, 1)],
+        int(
+            min(
+                dist_matrix[k(m - 1, n - 1, 0)],
+                dist_matrix[k(m - 1, n - 1, 1)],
+            )
         )
     )
     stop = timeit.default_timer()
