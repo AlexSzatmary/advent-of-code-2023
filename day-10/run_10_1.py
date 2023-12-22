@@ -1,6 +1,4 @@
 #!/usr/bin/env python
-# from itertools import cycle
-# import re
 import sys
 
 # | is a vertical pipe connecting north and south.

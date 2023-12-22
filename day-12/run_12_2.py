@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# from itertools import cycle
 from functools import cache
 import timeit
 import re

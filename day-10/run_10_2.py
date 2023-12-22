@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# from itertools import cycle
 import re
 import numpy as np
 import sys
