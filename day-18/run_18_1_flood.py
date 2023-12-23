@@ -61,7 +61,7 @@ def make_digs_absolute(digs):
     i_start -= top
     j_start -= left
     i_end -= top
-    j_end -= top
+    j_end -= left
     return i_start, j_start, i_end, j_end, colors
 
 
@@ -74,6 +74,7 @@ def make_lagoon_outline(i_start, j_start, i_end, j_end):
         right = max(j_start[k], j_end[k])
         top = min(i_start[k], i_end[k])
         bottom = max(i_start[k], i_end[k])
+        # print(left, right, top, bottom)
         lagoon_outline[top : bottom + 1, left : right + 1] = 1
     return lagoon_outline
 
@@ -145,12 +146,7 @@ def main(argv=None):
     i_start, j_start, i_end, j_end, colors = make_digs_absolute(digs)
 
     lagoon_outline = make_lagoon_outline(i_start, j_start, i_end, j_end)
-    # display_lagoon_outline(lagoon_outline)
-    # print("---")
     outside = find_outside_of_lagoon(lagoon_outline)
-    # display_lagoon_outline(outside)
-    # display_lagoon_outline(outside * lagoon_outline)
-    # m, n = np.shape(lagoon_outline)
     display_lagoon_outline_and_outside(lagoon_outline, outside)
     print("area", np.size(lagoon_outline) - np.sum(outside))
     stop = timeit.default_timer()
