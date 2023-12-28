@@ -23,7 +23,7 @@ def walk(starti, startj, field, n):
     walked = np.zeros(np.shape(field), dtype=np.int_)
     walked[starti, startj] = 1
     for k in range(n):
-        walked[1:-1, 1:-1] = (1 - field[1:-1, 1:-1]) * (
+        walked[1:-1, 1:-1] = (1 - field[1:-1, 1:-1]) * max(
             [
                 walked[0:-2, 1:-1]
                 | walked[2:, 1:-1]
