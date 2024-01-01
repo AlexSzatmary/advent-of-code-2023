@@ -9,7 +9,7 @@ def parse_input(L):
     graph = {}
     for s in L:
         (node, *edges) = re.findall(r"\w+", s)
-        graph[node] = edges
+        graph[node] = Counter(edges)
     return graph
 
 
@@ -20,20 +20,12 @@ def make_undirected(graph):
             if edge not in graph:
                 edges_to_add.append(edge)
     for node in edges_to_add:
-        graph[node] = []
+        graph[node] = Counter()
     for node in graph:
         for edge in graph[node]:
             if node not in graph[edge]:
-                graph[edge].append(node)
+                graph[edge][node] += 1
     return graph
-
-
-def make_numeric(graph):
-    indices = {node: i for i, node in enumerate(graph)}
-    ngraph = {}
-    for node in graph:
-        ngraph[indices[node]] = Counter(indices[edge] for edge in graph[node])
-    return ngraph
 
 
 def merge_highly_connected(graph, cabals):
@@ -90,7 +82,7 @@ def main(argv=None):
     with open(argv[1], "r") as hin:
         L = hin.readlines()
     start = timeit.default_timer()
-    graph = make_numeric(make_undirected(parse_input(L)))
+    graph = make_undirected(parse_input(L))
 
     if len(argv) == 3 and argv[2] == "dot":
         print("graph {")
