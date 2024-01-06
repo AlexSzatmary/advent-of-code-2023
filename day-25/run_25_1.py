@@ -31,15 +31,15 @@ def make_undirected(graph):
 def merge_highly_connected(graph, cabals):
     most_connected = 0
     best_pals = None
-    for a in graph:
-        for b in graph[a]:
-            k = (
-                sum(min(graph[a][c], graph[b][c]) for c in graph[a] if c in graph[b])
-                + graph[a][b]
-            )
-            if k > most_connected:
-                best_pals = (a, b)
-                most_connected = k
+    a = list(graph.keys())[0]  # pick the 0th node and merge with its closest neighbor
+    for b in graph[a]:
+        k = (
+            sum(min(graph[a][c], graph[b][c]) for c in graph[a] if c in graph[b])
+            + graph[a][b]
+        )
+        if k > most_connected:
+            best_pals = (a, b)
+            most_connected = k
 
     (a, b) = best_pals
     for c in graph[b]:
@@ -79,6 +79,8 @@ def run_merge_highly_connected(graph):
 def main(argv=None):
     if argv is None:
         argv = sys.argv
+    if argv[0] == "python":
+        argv = argv[1:]
     with open(argv[1], "r") as hin:
         L = hin.readlines()
     start = timeit.default_timer()
