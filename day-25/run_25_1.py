@@ -4,8 +4,12 @@ import re
 import sys
 import timeit
 
+type Graph = dict[str, Counter[str]]
+type Node = str
+type Cabal = list[set[Node]]
 
-def parse_input(L):
+
+def parse_input(L: list[str]) -> Graph:
     graph = {}
     for s in L:
         (node, *edges) = re.findall(r"\w+", s)
@@ -13,7 +17,7 @@ def parse_input(L):
     return graph
 
 
-def make_undirected(graph):
+def make_undirected(graph: Graph) -> Graph:
     edges_to_add = []
     for node in graph:
         for edge in graph[node]:
@@ -28,9 +32,9 @@ def make_undirected(graph):
     return graph
 
 
-def merge_highly_connected(graph, cabals):
+def merge_highly_connected(graph: Graph, cabals: Cabal) -> tuple[Graph, Cabal]:
     most_connected = 0
-    best_pals = None
+    best_pals = ("", "")
     a = list(graph.keys())[0]  # pick the 0th node and merge with its closest neighbor
     for b in graph[a]:
         k = (
@@ -62,18 +66,18 @@ def merge_highly_connected(graph, cabals):
     return graph, cabals
 
 
-def run_merge_highly_connected(graph):
+def run_merge_highly_connected(graph: Graph) -> int:
     cabals = [set([node]) for node in graph]
     while len(cabals) > 2:
         graph, cabals = merge_highly_connected(graph, cabals)
-        for node in graph:
+        for node in graph :
             if graph[node].total() == 3:
                 for cabal in cabals:
                     if node in cabal:
                         return len(cabal) * (sum(len(c) for c in cabals) - len(cabal))
                 break
     print("This should not execute")
-    return graph, cabals
+    return -1  # added to please Mypy
 
 
 def main(argv=None):
