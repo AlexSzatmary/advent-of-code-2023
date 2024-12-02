@@ -3,6 +3,8 @@ from collections import Counter
 import re
 import sys
 import timeit
+import typing
+from typing_extensions import Never
 
 type Graph = dict[str, Counter[str]]
 type Node = str
@@ -70,14 +72,13 @@ def run_merge_highly_connected(graph: Graph) -> int:
     cabals = [set([node]) for node in graph]
     while len(cabals) > 2:
         graph, cabals = merge_highly_connected(graph, cabals)
-        for node in graph :
+        for node in graph:
             if graph[node].total() == 3:
                 for cabal in cabals:
                     if node in cabal:
                         return len(cabal) * (sum(len(c) for c in cabals) - len(cabal))
                 break
-    print("This should not execute")
-    return -1  # added to please Mypy
+    assert False, "This should not execute"
 
 
 def main(argv=None):
